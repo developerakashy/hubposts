@@ -115,16 +115,6 @@ app.use(
   })
 );
 
-app.get("_healthz", async (req, res) => {
-  try {
-    const redis = await redisClient.set("health", "ok", {EX:100 })
-    return res.json({
-      status: "ok",
-    });
-  } catch (error) {
-    return res.send(error)
-  }
-});
 
 app.use("/auth", twitterRoute);
 app.use("/post", postRoute);
@@ -195,6 +185,7 @@ productRouter.get(
 
 // FDK extension api route which has auth middleware and FDK client instance attached to it.
 platformApiRoutes.use("/products", productRouter);
+platformApiRoutes.use("/healthz", );
 
 // If you are adding routes outside of the /api path,
 // remember to also add a proxy rule for them in /frontend/vite.config.js

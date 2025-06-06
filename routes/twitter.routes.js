@@ -263,6 +263,17 @@ twitterRoute.post('/:company_id/tweet', async (req, res) => {
     }
 })
 
+twitterRoute.get("_healthz", async (req, res) => {
+  try {
+    const redis = await redisClient.set("health", "ok", {EX:100 })
+    return res.json({
+      status: "ok",
+    });
+  } catch (error) {
+    return res.send(error)
+  }
+});
+
 twitterRoute.delete('/delete/:id', async (req, res) => {
     const { id } = req.params
 
